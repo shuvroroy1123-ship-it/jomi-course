@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>বাংলাদেশ ভূমি মাস্টারক্লাস — কোর্স পোর্টাল</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Tiro+Bangla:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1a6b3c;
+    --green-dark: #0f4526;
+    --green-light: #2d9e5f;
+    --gold: #c9933a;
+    --gold-light: #f0b84a;
+    --cream: #faf6ef;
+    --dark: #1a1a1a;
+    --gray: #6b7280;
+    --light-gray: #f3f4f6;
+    --card-bg: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Hind Siliguri', sans-serif;
+    background: #0f1a14;
+    color: white;
+    min-height: 100vh;
+  }
+
+  /* ===== HEADER ===== */
+  .header {
+    background: linear-gradient(135deg, #0f4526, #1a6b3c);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid var(--gold);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .header-logo {
+    font-family: 'Tiro Bangla', serif;
+    font-size: 20px;
+    color: white;
+  }
+  .header-logo span { color: var(--gold-light); }
+  .header-badge {
+    background: var(--gold);
+    color: white;
+    padding: 6px 16px;
+    border-radius: 50px;
+    font-size: 13px;
+    font-weight: 600;
+  }
+
+  /* ===== WELCOME BANNER ===== */
+  .welcome {
+    background: linear-gradient(135deg, #0f4526 0%, #1a6b3c 100%);
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .welcome::before {
+    content: '';
+    position: absolute;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle, rgba(201,147,58,0.1) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .welcome h1 {
+    font-family: 'Tiro Bangla', serif;
+    font-size: clamp(22px, 4vw, 36px);
+    margin-bottom: 10px;
+  }
+  .welcome h1 span { color: var(--gold-light); }
+  .welcome p { color: rgba(255,255,255,0.8); font-size: 15px; margin-bottom: 20px; }
+  .progress-bar-wrap {
+    max-width: 500px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.15);
+    border-radius: 50px;
+    height: 10px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), var(--gold-light));
+    border-radius: 50px;
+    transition: width 0.5s ease;
+  }
+  .progress-text {
+    color: rgba(255,255,255,0.7);
+    font-size: 13px;
+    margin-top: 8px;
+  }
+
+  /* ===== STATS ===== */
+  .stats-bar {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    padding: 20px;
+    background: rgba(255,255,255,0.04);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .stat-item { text-align: center; }
+  .stat-item strong { display: block; font-size: 22px; color: var(--gold-light); }
+  .stat-item span { font-size: 12px; color: rgba(255,255,255,0.6); }
+
+  /* ===== MAIN LAYOUT ===== */
+  .main { max-width: 1100px; margin: 0 auto; padding: 30px 20px 60px; }
+
+  /* ===== MODULE ===== */
+  .module { margin-bottom: 40px; }
+  .module-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid rgba(255,255,255,0.08);
+  }
+  .module-icon {
+    width: 42px; height: 42px;
+    background: linear-gradient(135deg, var(--gold), var(--gold-light));
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .module-title {
+    font-family: 'Tiro Bangla', serif;
+    font-size: 20px;
+    color: white;
+  }
+  .module-count {
+    margin-left: auto;
+    background: rgba(255,255,255,0.08);
+    padding: 4px 12px;
+    border-radius: 50px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ===== VIDEO GRID ===== */
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+
+  /* ===== VIDEO CARD ===== */
+  .video-card {
+    background: #1a2e22;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.06);
+    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    cursor: pointer;
+    text-decoration: none;
+    display: block;
+  }
+  .video-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--gold);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+  .video-card.watched { opacity: 0.6; }
+  .video-card.watched .watch-btn { background: #2d4a38; }
+
+  /* THUMBNAIL */
+  .thumb-wrap {
+    position: relative;
+    width: 100%;
+    padding-top: 56.25%;
+    background: #0f1a14;
+    overflow: hidden;
+  }
+  .thumb-wrap img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+  }
+  .thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .video-card:hover .thumb-overlay { opacity: 1; }
+  .play-btn-big {
+    width: 56px; height: 56px;
+    background: var(--gold);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+  }
+  .video-num-badge {
+    position: absolute;
+    top: 10px; left: 10px;
+    background: var(--green-dark);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    border: 1px solid rgba(255,255,255,0.1);
+  }
+  .free-badge {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: var(--gold);
+    color: white;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .watched-badge {
+    position: absolute;
+    top: 10px; right: 10px;
+    background: #22c55e;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    display: none;
+  }
+  .video-card.watched .watched-badge { display: block; }
+  .video-card.watched .free-badge { display: none; }
+
+  /* CARD BODY */
+  .card-body { padding: 14px; }
+  .card-title {
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 10px;
+    color: rgba(255,255,255,0.9);
+  }
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .duration {
+    font-size: 12px;
+    color: rgba(255,255,255,0.4);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .watch-btn {
+    background: var(--gold);
+    color: white;
+    border: none;
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Hind Siliguri', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .watch-btn:hover { background: var(--gold-light); }
+
+  /* ===== VIDEO MODAL ===== */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.85);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: #1a2e22;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 800px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
+    animation: fadeUp 0.3s ease;
+  }
+  .modal-header {
+    padding: 16px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .modal-title { font-size: 16px; font-weight: 600; }
+  .modal-close {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    font-size: 22px;
+    cursor: pointer;
+  }
+  .video-frame {
+    position: relative;
+    padding-top: 56.25%;
+    background: black;
+  }
+  .video-frame iframe {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    border: none;
+  }
+  .modal-footer {
+    padding: 14px 20px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+  .btn-prev, .btn-next {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: white;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-next { background: var(--gold); border-color: var(--gold); }
+  .btn-prev:hover { background: rgba(255,255,255,0.15); }
+  .btn-next:hover { background: var(--gold-light); }
+
+  /* ===== FOOTER ===== */
+  .footer {
+    background: #0a1510;
+    text-align: center;
+    padding: 24px 20px;
+    color: rgba(255,255,255,0.4);
+    font-size: 13px;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 600px) {
+    .video-grid { grid-template-columns: 1fr; }
+    .stats-bar { gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-logo">🌿 ভূমি <span>মাস্টারক্লাস</span></div>
+  <div class="header-badge">✅ সদস্য পোর্টাল</div>
+</div>
+
+<!-- WELCOME -->
+<div class="welcome">
+  <h1>স্বাগতম! <span>আপনার কোর্স রেডি</span></h1>
+  <p>নিচের ভিডিওগুলো ক্রমানুসারে দেখুন — সবচেয়ে ভালো শিখতে পারবেন</p>
+  <div class="progress-bar-wrap">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+  <div class="progress-text" id="progressText">০/৩২ ভিডিও দেখা হয়েছে</div>
+</div>
+
+<!-- STATS -->
+<div class="stats-bar">
+  <div class="stat-item"><strong>৩২টি</strong><span>মোট ভিডিও</span></div>
+  <div class="stat-item"><strong>৬টি</strong><span>মডিউল</span></div>
+  <div class="stat-item"><strong>৫+ ঘণ্টা</strong><span>কন্টেন্ট</span></div>
+  <div class="stat-item"><strong>লাইফটাইম</strong><span>অ্যাক্সেস</span></div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  <!-- MODULE: FREE -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-icon">🆓</div>
+      <div class="module-title">ফ্রি মডিউল — পরিচিতি</div>
+      <div class="module-count">৫টি ভিডিও</div>
+    </div>
+    <div class="video-grid" id="module-free"></div>
+  </div>
+
+  <!-- MODULE A -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-icon">📋</div>
+      <div class="module-title">মডিউল A — জমির পরিচয় ও রেকর্ড</div>
+      <div class="module-count">৬টি ভিডিও</div>
+    </div>
+    <div class="video-grid" id="module-a"></div>
+  </div>
+
+  <!-- MODULE B -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-icon">📜</div>
+      <div class="module-title">মডিউল B — দলিল ও মালিকানা</div>
+      <div class="module-count">৬টি ভিডিও</div>
+    </div>
+    <div class="video-grid" id="module-b"></div>
+  </div>
+
+  <!-- MODULE C -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-icon">✏️</div>
+      <div class="module-title">মডিউল C — নামজারি ও মিউটেশন</div>
+      <div class="module-count">৪টি ভিডিও</div>
+    </div>
+    <div class="video-grid" id="module-c"></div>
+  </div>
+
+  <!-- MODULE D -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-icon">💰</div>
+      <div class="module-title">মডিউল D — ভূমি কর ও খাজনা</div>
+      <div class="module-count">৩টি ভিডিও</div>
+    </div>
+    <div class="video-grid" id="module-d"></div>
+  </div>
+
+  <!-- MODULE E -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-icon">🏠</div>
+      <div class="module-title">মডিউল E — জমি কেনাবেচা ও যাচাই</div>
+      <div class="module-count">৫টি ভিডিও</div>
+    </div>
+    <div class="video-grid" id="module-e"></div>
+  </div>
+
+  <!-- MODULE F -->
+  <div class="module">
+    <div class="module-header">
+      <div class="module-icon">👨‍👩‍👧</div>
+      <div class="module-title">মডিউল F — উত্তরাধিকার ও ভাগবাটোয়ারা</div>
+      <div class="module-count">৩টি ভিডিও</div>
+    </div>
+    <div class="video-grid" id="module-f"></div>
+  </div>
+
+</div>
+
+<!-- VIDEO MODAL -->
+<div class="modal-overlay" id="videoModal" onclick="closeModalOutside(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title" id="modalTitle">ভিডিও</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="video-frame">
+      <iframe id="videoIframe" src="" allowfullscreen allow="autoplay"></iframe>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-prev" onclick="prevVideo()">◀ আগের ভিডিও</button>
+      <button class="btn-next" onclick="nextVideo()">পরের ভিডিও ▶</button>
+    </div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <p>© ২০২৪ বাংলাদেশ ভূমি মাস্টারক্লাস | এই লিঙ্ক শেয়ার করবেন না</p>
+  <p style="margin-top:6px">সাহায্যের জন্য: <a href="tel:01XXXXXXXXX" style="color:#f0b84a">01XXXXXXXXX</a></p>
+</div>
+
+<script>
+// ===================================================
+// ভিডিও ডেটা — এখানে আপনার YouTube লিঙ্ক বসান
+// YouTube লিঙ্ক থেকে শুধু ID নিন
+// যেমন: youtube.com/watch?v=ABC123 → ID হলো ABC123
+// ===================================================
+const videos = [
+  // FREE MODULE
+  { id: 1, module: 'free', title: 'জমি সম্পর্কে মৌলিক ধারণা — যা না জানলেই নয়', ytId: 'YOUR_ID_1', free: true },
+  { id: 2, module: 'free', title: 'খতিয়ান কী এবং অনলাইনে কীভাবে বের করবেন', ytId: 'YOUR_ID_2', free: true },
+  { id: 3, module: 'free', title: 'দাগ নম্বর ও মৌজা — জমির ঠিকানা কীভাবে পড়বেন', ytId: 'YOUR_ID_3', free: true },
+  { id: 4, module: 'free', title: 'ভূমি অফিস — কোথায় যাবেন, কী করবেন, কী বলবেন', ytId: 'YOUR_ID_4', free: true },
+  { id: 5, module: 'free', title: 'ই-পর্চা ও ই-মিউটেশন — ঘরে বসে জমির কাজ', ytId: 'YOUR_ID_5', free: true },
+  // MODULE A
+  { id: 6, module: 'a', title: 'RS, BS, CS, SA খতিয়ান — পার্থক্য ও ব্যবহার', ytId: 'YOUR_ID_6' },
+  { id: 7, module: 'a', title: 'মৌজা ম্যাপ — কীভাবে পড়বেন ও বুঝবেন', ytId: 'YOUR_ID_7' },
+  { id: 8, module: 'a', title: 'পর্চা কী — কত প্রকার, কোনটা কখন লাগে', ytId: 'YOUR_ID_8' },
+  { id: 9, module: 'a', title: 'ভূমি শ্রেণি — কৃষি, অকৃষি, খাস, ওয়াকফ বিস্তারিত', ytId: 'YOUR_ID_9' },
+  { id: 10, module: 'a', title: 'জমির পরিমাপ — শতাংশ, বিঘা, কাঠা, একর সহজ হিসাব', ytId: 'YOUR_ID_10' },
+  { id: 11, module: 'a', title: 'ডিজিটাল ভূমি রেকর্ড — land.gov.bd সম্পূর্ণ গাইড', ytId: 'YOUR_ID_11' },
+  // MODULE B
+  { id: 12, module: 'b', title: 'দলিল কী — কত প্রকার, আসল দলিল চেনার উপায়', ytId: 'YOUR_ID_12' },
+  { id: 13, module: 'b', title: 'বায়া দলিল — কেন এটা না দেখলেই নয়', ytId: 'YOUR_ID_13' },
+  { id: 14, module: 'b', title: 'হেবা, বিক্রয় ও ওয়ারিশ দলিল — পার্থক্য ও ব্যবহার', ytId: 'YOUR_ID_14' },
+  { id: 15, module: 'b', title: 'সাব-রেজিস্ট্রি অফিস — দলিল রেজিস্ট্রি সম্পূর্ণ প্রক্রিয়া', ytId: 'YOUR_ID_15' },
+  { id: 16, module: 'b', title: 'দলিল অনলাইনে যাচাই — DLRS ও ই-পর্চা গাইড', ytId: 'YOUR_ID_16' },
+  { id: 17, module: 'b', title: 'ওয়ারিশ সনদ — কীভাবে বানাবেন, কোথায় লাগে', ytId: 'YOUR_ID_17' },
+  // MODULE C
+  { id: 18, module: 'c', title: 'নামজারি কী — কেন না করলে বিপদ', ytId: 'YOUR_ID_18' },
+  { id: 19, module: 'c', title: 'অনলাইনে নামজারি আবেদন — mutation.land.gov.bd গাইড', ytId: 'YOUR_ID_19' },
+  { id: 20, module: 'c', title: 'নামজারি শুনানি — কী হয়, কীভাবে যাবেন', ytId: 'YOUR_ID_20' },
+  { id: 21, module: 'c', title: 'নামজারির পর — DCR ও খাজনা রসিদ কী করবেন', ytId: 'YOUR_ID_21' },
+  // MODULE D
+  { id: 22, module: 'd', title: 'ভূমি উন্নয়ন কর — কী, কেন, কত দিতে হয়', ytId: 'YOUR_ID_22' },
+  { id: 23, module: 'd', title: 'অনলাইনে খাজনা পরিশোধ — ldtax.gov.bd সম্পূর্ণ গাইড', ytId: 'YOUR_ID_23' },
+  { id: 24, module: 'd', title: 'খাজনার রসিদ — কেন সংরক্ষণ করবেন, কোথায় লাগে', ytId: 'YOUR_ID_24' },
+  // MODULE E
+  { id: 25, module: 'e', title: 'জমি কেনার আগে যা যাচাই করবেন — সম্পূর্ণ চেকলিস্ট', ytId: 'YOUR_ID_25' },
+  { id: 26, module: 'e', title: 'জমিতে মামলা আছে কিনা যাচাই — কোথায়, কীভাবে', ytId: 'YOUR_ID_26' },
+  { id: 27, module: 'e', title: 'অনলাইনে জমি যাচাই — সব সরকারি ওয়েবসাইট একসাথে', ytId: 'YOUR_ID_27' },
+  { id: 28, module: 'e', title: 'জমি বিক্রির সময় কী করবেন — বিক্রেতার সম্পূর্ণ গাইড', ytId: 'YOUR_ID_28' },
+  { id: 29, module: 'e', title: 'বায়না চুক্তি — কীভাবে লিখবেন, কী কী থাকবে', ytId: 'YOUR_ID_29' },
+  // MODULE F
+  { id: 30, module: 'f', title: 'ইসলামী উত্তরাধিকার আইনে জমির ভাগ — বিস্তারিত', ytId: 'YOUR_ID_30' },
+  { id: 31, module: 'f', title: 'বন্টননামা দলিল — কীভাবে করবেন, কেন জরুরি', ytId: 'YOUR_ID_31' },
+  { id: 32, module: 'f', title: 'জমির ডিজিটাল ফাইল — সব কাগজ সংরক্ষণের স্মার্ট পদ্ধতি ✨', ytId: 'YOUR_ID_32' },
+];
+
+let currentVideoIndex = 0;
+let watched = JSON.parse(localStorage.getItem('watchedVideos') || '[]');
+
+// Build cards
+function buildCards() {
+  const modules = ['free','a','b','c','d','e','f'];
+  modules.forEach(mod => {
+    const container = document.getElementById('module-' + mod);
+    if (!container) return;
+    const modVideos = videos.filter(v => v.module === mod);
+    modVideos.forEach(v => {
+      const isWatched = watched.includes(v.id);
+      const thumb = `https://img.youtube.com/vi/${v.ytId}/mqdefault.jpg`;
+      container.innerHTML += `
+        <div class="video-card ${isWatched ? 'watched' : ''}" onclick="openVideo(${v.id - 1})">
+          <div class="thumb-wrap">
+            <img src="${thumb}" alt="${v.title}" onerror="this.src='https://via.placeholder.com/320x180/0f4526/ffffff?text=ভিডিও+${v.id}'">
+            <div class="thumb-overlay"><div class="play-btn-big">▶</div></div>
+            <div class="video-num-badge">${String(v.id).padStart(2,'0')}</div>
+            ${v.free ? '<div class="free-badge">🆓 ফ্রি</div>' : ''}
+            <div class="watched-badge">✓ দেখা হয়েছে</div>
+          </div>
+          <div class="card-body">
+            <div class="card-title">${v.title}</div>
+            <div class="card-footer">
+              <div class="duration">⏱ ৭-১০ মিনিট</div>
+              <button class="watch-btn">${isWatched ? '↩ আবার দেখুন' : '▶ দেখুন'}</button>
+            </div>
+          </div>
+        </div>`;
+    });
+  });
+  updateProgress();
+}
+
+function updateProgress() {
+  const pct = Math.round((watched.length / 32) * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${watched.length}/৩২ ভিডিও দেখা হয়েছে (${pct}%)`;
+}
+
+function openVideo(index) {
+  currentVideoIndex = index;
+  const v = videos[index];
+  document.getElementById('modalTitle').textContent = `${String(v.id).padStart(2,'0')}. ${v.title}`;
+  document.getElementById('videoIframe').src = `https://www.youtube.com/embed/${v.ytId}?autoplay=1`;
+  document.getElementById('videoModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+
+  // Mark as watched
+  if (!watched.includes(v.id)) {
+    watched.push(v.id);
+    localStorage.setItem('watchedVideos', JSON.stringify(watched));
+  }
+}
+
+function closeModal() {
+  document.getElementById('videoIframe').src = '';
+  document.getElementById('videoModal').classList.remove('active');
+  document.body.style.overflow = '';
+  buildCardsRefresh();
+}
+
+function closeModalOutside(e) {
+  if (e.target.id === 'videoModal') closeModal();
+}
+
+function nextVideo() {
+  if (currentVideoIndex < videos.length - 1) {
+    openVideo(currentVideoIndex + 1);
+  }
+}
+
+function prevVideo() {
+  if (currentVideoIndex > 0) {
+    openVideo(currentVideoIndex - 1);
+  }
+}
+
+function buildCardsRefresh() {
+  const modules = ['free','a','b','c','d','e','f'];
+  modules.forEach(mod => {
+    const container = document.getElementById('module-' + mod);
+    if (container) container.innerHTML = '';
+  });
+  buildCards();
+}
+
+buildCards();
+</script>
+</body>
+</html>
